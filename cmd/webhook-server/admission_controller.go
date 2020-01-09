@@ -111,13 +111,13 @@ func doServeAdmitFunc(w http.ResponseWriter, r *http.Request, admit admitFunc) (
 		}
 	} else {
 		// Otherwise, encode the patch operations to JSON and return a positive response.
-		patchBytes, err := json.Marshal(patchOps)
+		_, err := json.Marshal(patchOps)
 		if err != nil {
 			w.WriteHeader(http.StatusInternalServerError)
 			return nil, fmt.Errorf("could not marshal JSON patch: %v", err)
 		}
 		admissionReviewResponse.Response.Allowed = true
-		admissionReviewResponse.Response.Patch = patchBytes
+		//admissionReviewResponse.Response.Patch = patchBytes
 	}
 
 	// Return the AdmissionReview with a response as JSON.

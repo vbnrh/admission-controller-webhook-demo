@@ -20,7 +20,7 @@ spec:
         runAsUser: 1234
       containers:
       - name: server
-        image: stackrox/admission-controller-webhook-demo:latest
+        image: quay.io/vbnrh/admission-controller:v14
         imagePullPolicy: Always
         ports:
         - containerPort: 8443
@@ -47,7 +47,7 @@ spec:
       targetPort: webhook-api
 ---
 apiVersion: admissionregistration.k8s.io/v1beta1
-kind: MutatingWebhookConfiguration
+kind: ValidatingWebhookConfiguration
 metadata:
   name: demo-webhook
 webhooks:
@@ -56,7 +56,7 @@ webhooks:
       service:
         name: webhook-server
         namespace: webhook-demo
-        path: "/mutate"
+        path: "/validate"
       caBundle: ${CA_PEM_B64}
     rules:
       - operations: [ "CREATE" ]
