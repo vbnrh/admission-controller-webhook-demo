@@ -1,0 +1,14 @@
+package: github.com/vbnrh/admission-controller-webhook-demo
+import:
+- package: github.com/multus-admission-controller/pkg
+  subpackages:
+  - webhook
+- package: k8s.io/api
+  subpackages:
+  - admission/v1beta1
+  - core/v1
+- package: k8s.io/apimachinery
+  subpackages:
+  - pkg/apis/meta/v1
+  - pkg/runtime
+  - pkg/runtime/serializer

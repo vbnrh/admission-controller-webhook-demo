@@ -1,12 +1,11 @@
-# A pod with no securityContext specified.
-# Without the webhook, it would run as user root (0). The webhook mutates it
+# Without the webhook, it would run as user root (0). The webhook validates it
 # to run as the non-root user with uid 1234.
 apiVersion: v1
 kind: Pod
 metadata:
-  name: pod-with-defaults
+  name: accept-pod
   labels:
-    app: pod-with-defaults
+    app: accept-pod
 spec:
   restartPolicy: OnFailure
   containers:

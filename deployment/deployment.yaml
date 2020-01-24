@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: okd-admission-controller-server
+  namespace: openshift-storage
+  labels:
+    app: okd-admission-controller-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: okd-admission-controller-server
+  template:
+    metadata:
+      labels:
+        app: okd-admission-controller-server
+    spec:
+      containers:
+      - name: okd-admission-controller-server
+        image: quay.io/vbnrh/admission-controller:v27
+        imagePullPolicy: Always
+        args:
+        - -tls-private-key-file=/etc/webhook/key.pem
+        - -tls-cert-file=/etc/webhook/cert.pem
+        ports:
+        - containerPort: 8443
+          name: webhook-api
+        volumeMounts:
+        - name: webhook-certs
+          mountPath: /etc/webhook
+          readOnly: True
+      serviceAccountName: okd-admission-controller-sa  
+      volumes:
+      - name: webhook-certs
+        secret:
+          secretName: okd-admission-controller-secret

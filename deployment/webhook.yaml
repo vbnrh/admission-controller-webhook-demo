@@ -1,0 +1,18 @@
+apiVersion: admissionregistration.k8s.io/v1beta1
+kind: ValidatingWebhookConfiguration
+metadata:
+  name: demo-webhook
+  namespace: openshift-storage
+webhooks:
+  - name: webhook-server.openshift-storage.svc
+    clientConfig:
+      service:
+        name: okd-admission-controller-service
+        namespace: ${NAMESPACE}
+        path: "/validate"
+      caBundle: ${CA_BUNDLE}
+    rules:
+      - operations: [ "CREATE" ]
+        apiGroups: [""]
+        apiVersions: ["v1"]
+        resources: ["pods"]
